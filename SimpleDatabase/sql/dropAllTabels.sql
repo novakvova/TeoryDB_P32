@@ -1,0 +1,1 @@
+IF EXISTS (SELECT * FROM sys.tables WHERE object_id = OBJECT_ID(N'tbl_categories')) EXEC dbo.sp_executesql @statement = N'DROP TABLE tbl_categories;'
