@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bogus;
 
 namespace SimpleDatabase.Services
 {
@@ -117,6 +118,42 @@ namespace SimpleDatabase.Services
             catch (Exception ex)
             {
                 Console.WriteLine("Щось пішло не так {0}", ex.Message);
+            }
+        }
+
+        public void InsertRandomCategories(int count)
+        {
+            var faker = new Faker("en");
+            
+            string sql = @$"
+                INSERT INTO tbl_categories 
+                (FName,LName)
+                VALUES (@fName, @lName);
+                ";
+
+            string [] names = faker.Commerce.Categories(count);
+            for (int i = 0; i < count; i++)
+            {
+                var description = faker.Lorem.Text();
+                try
+                {
+                    var command = _conn.CreateCommand();
+                    command.CommandText = sql;
+
+                    SqlParameter lNameParam = new SqlParameter("@lName", System.Data.SqlDbType.NVarChar)
+                    {
+                        Value = description
+                    };
+                    command.Parameters.Add(lNameParam);
+                    command.Parameters.Add(new SqlParameter("@fName", names[i]));
+
+                    int rows = command.ExecuteNonQuery(); //запит, який не вертає послідовність
+                    //Console.WriteLine("Запис додано " + rows);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Щось пішло не так {0}", ex.Message);
+                }
             }
         }
 
