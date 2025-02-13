@@ -54,7 +54,7 @@ namespace SimpleDatabase.Services
 
         public void CreateTabels()
         {
-            string[] tabels = { "tbl_categories", "tbl_products" };
+            string[] tabels = { "tbl_categories", "tbl_products", "tbl_users" };
             foreach (string tabel in tabels)
             {
                 string sql = File.ReadAllText(@$"sql\tabels\{tabel}.sql");

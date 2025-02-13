@@ -1,2 +1,3 @@
 IF EXISTS (SELECT * FROM sys.tables WHERE object_id = OBJECT_ID(N'tbl_products')) EXEC dbo.sp_executesql @statement = N'DROP TABLE tbl_products;'
 IF EXISTS (SELECT * FROM sys.tables WHERE object_id = OBJECT_ID(N'tbl_categories')) EXEC dbo.sp_executesql @statement = N'DROP TABLE tbl_categories;'
+IF EXISTS (SELECT * FROM sys.tables WHERE object_id = OBJECT_ID(N'tbl_users')) EXEC dbo.sp_executesql @statement = N'DROP TABLE tbl_users;'
