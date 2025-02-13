@@ -19,6 +19,9 @@
     <None Update="sql\tabels\tbl_categories.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="sql\tabels\tbl_products.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

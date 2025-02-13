@@ -27,6 +27,7 @@ namespace SimpleDatabase.Services
                 Console.WriteLine("Щось пішло не так {0}", ex.Message);
             }
         }
+        
         public void ReadAllTabels()
         {
             string sql = "SELECT * FROM sys.tables";
