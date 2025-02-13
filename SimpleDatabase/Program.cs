@@ -7,7 +7,11 @@ namespace SimpleDatabase
 {
     internal class Program
     {
-       
+
+        //insert into tblProducts(CategoryId, Name, Description, Price, CreatedDate) 
+        //Values(1, N'Молоко', N'Дуже смачне', 110, '2025-02-11 16:40:25');
+        //
+
         static void Main(string[] args)
         {
             Console.InputEncoding = Encoding.UTF8;
