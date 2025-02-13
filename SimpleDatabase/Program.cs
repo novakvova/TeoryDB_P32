@@ -39,7 +39,7 @@ namespace SimpleDatabase
                         break;
                     case 2:
                         Console.WriteLine("---------Створення таблиці в БД------");
-                        ds.CreateTabelCategories();
+                        ds.CreateTabels();
                         break;
                     case 3:
                         Console.WriteLine("---------Очистити таблиці з БД------");

@@ -51,35 +51,42 @@ namespace SimpleDatabase.Services
             }
         }
 
-        public void CreateTabelCategories()
+        public void CreateTabels()
         {
-            string sql = File.ReadAllText(@"sql\tabels\tbl_categories.sql");
-            try
+            string[] tabels = { "tbl_categories", "tbl_products" };
+            foreach (string tabel in tabels)
             {
-                var command = _conn.CreateCommand();
-                command.CommandText = sql;
-                int rows = command.ExecuteNonQuery(); //запит, який не вертає послідовність
-                Console.WriteLine("Таблицю створено успішно");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Щось пішло не так {0}", ex.Message);
+                string sql = File.ReadAllText(@$"sql\tabels\{tabel}.sql");
+                try
+                {
+                    var command = _conn.CreateCommand();
+                    command.CommandText = sql;
+                    int rows = command.ExecuteNonQuery(); //запит, який не вертає послідовність
+                    Console.WriteLine($"Таблицю створено успішно {tabel}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Щось пішло не так {0}", ex.Message);
+                }
             }
         }
 
         public void DeleteAllTables()
         {
-            string sql = File.ReadAllText(@"sql\dropAllTabels.sql");
-            try
+            var sqlLines = File.ReadAllLines(@"sql\dropAllTabels.sql");
+            foreach(var line in sqlLines)
             {
-                var command = _conn.CreateCommand();
-                command.CommandText = sql;
-                int rows = command.ExecuteNonQuery(); //запит, який не вертає послідовність
-                Console.WriteLine("Taблиці успішно видалено");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Щось пішло не так {0}", ex.Message);
+                try
+                {
+                    var command = _conn.CreateCommand();
+                    command.CommandText = line;
+                    int rows = command.ExecuteNonQuery(); //запит, який не вертає послідовність
+                    Console.WriteLine("Taблиці успішно видалено");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Щось пішло не так {0}", ex.Message);
+                }
             }
         }
 
