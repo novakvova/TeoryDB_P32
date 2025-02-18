@@ -29,6 +29,8 @@ namespace SimpleDatabase
                 Console.WriteLine("3.Видалити усі таблиці в БД");
                 Console.WriteLine("4.Додати категорію");
                 Console.WriteLine("5.Додати n-категорій");
+                Console.WriteLine("6.Додати n-користувачів");
+                //Console.WriteLine("7.Додати n-користувачів");
                 Console.Write("->_");
                 operation = int.Parse(Console.ReadLine());
                 switch(operation)
@@ -49,21 +51,42 @@ namespace SimpleDatabase
                         ds.CreateCategory();
                         break;
                     case 5:
-                        Console.Write("Вкажіть кількість: ");
-                        int count = int.Parse(Console.ReadLine());
-                        Stopwatch stopWatch = new Stopwatch();
-                        stopWatch.Start();
-                        ds.InsertRandomCategories(count);
-                        stopWatch.Stop();
-                        // Get the elapsed time as a TimeSpan value.
-                        TimeSpan ts = stopWatch.Elapsed;
+                        {
+                            Console.Write("Вкажіть кількість: ");
+                            int count = int.Parse(Console.ReadLine());
+                            Stopwatch stopWatch = new Stopwatch();
+                            stopWatch.Start();
+                            ds.InsertRandomCategories(count);
+                            stopWatch.Stop();
+                            // Get the elapsed time as a TimeSpan value.
+                            TimeSpan ts = stopWatch.Elapsed;
 
-                        // Format and display the TimeSpan value.
-                        string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                            ts.Hours, ts.Minutes, ts.Seconds,
-                            ts.Milliseconds / 10);
-                        Console.WriteLine("RunTime " + elapsedTime);
-                        break;
+                            // Format and display the TimeSpan value.
+                            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                                ts.Hours, ts.Minutes, ts.Seconds,
+                                ts.Milliseconds / 10);
+                            Console.WriteLine("RunTime " + elapsedTime);
+                            break;
+                        }
+
+                    case 6:
+                        {
+                            Console.Write("Вкажіть кількість: ");
+                            int count = int.Parse(Console.ReadLine());
+                            Stopwatch stopWatch = new Stopwatch();
+                            stopWatch.Start();
+                            ds.InsertRandomSpeed(count);
+                            stopWatch.Stop();
+                            // Get the elapsed time as a TimeSpan value.
+                            TimeSpan ts = stopWatch.Elapsed;
+
+                            // Format and display the TimeSpan value.
+                            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                                ts.Hours, ts.Minutes, ts.Seconds,
+                                ts.Milliseconds / 10);
+                            Console.WriteLine("RunTime " + elapsedTime);
+                            break;
+                        }
                 }
             } while (operation != 0);
         }

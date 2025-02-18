@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bogus;
+using SimpleDatabase.Models;
 
 namespace SimpleDatabase.Services
 {
@@ -27,7 +29,7 @@ namespace SimpleDatabase.Services
                 Console.WriteLine("Щось пішло не так {0}", ex.Message);
             }
         }
-        
+
         public void ReadAllTabels()
         {
             string sql = "SELECT * FROM sys.tables";
@@ -75,7 +77,7 @@ namespace SimpleDatabase.Services
         public void DeleteAllTables()
         {
             var sqlLines = File.ReadAllLines(@"sql\dropAllTabels.sql");
-            foreach(var line in sqlLines)
+            foreach (var line in sqlLines)
             {
                 try
                 {
@@ -115,13 +117,13 @@ namespace SimpleDatabase.Services
                 command.CommandText = sql;
 
                 SqlParameter lNameParam = new SqlParameter("@lName", System.Data.SqlDbType.NVarChar);
-                lNameParam.Value=lName;
+                lNameParam.Value = lName;
                 command.Parameters.Add(lNameParam);
 
                 command.Parameters.Add(new SqlParameter("@fName", fName));
 
                 int rows = command.ExecuteNonQuery(); //запит, який не вертає послідовність
-                Console.WriteLine("Запис додано "+rows);
+                Console.WriteLine("Запис додано " + rows);
             }
             catch (Exception ex)
             {
@@ -132,14 +134,14 @@ namespace SimpleDatabase.Services
         public void InsertRandomCategories(int count)
         {
             var faker = new Faker("en");
-            
+
             string sql = @$"
                 INSERT INTO tbl_categories 
                 (FName,LName)
                 VALUES (@fName, @lName);
                 ";
 
-            string [] names = faker.Commerce.Categories(count);
+            string[] names = faker.Commerce.Categories(count);
             for (int i = 0; i < count; i++)
             {
                 var description = faker.Lorem.Text();
@@ -165,6 +167,51 @@ namespace SimpleDatabase.Services
             }
         }
 
+        public void InsertRandomSpeed(int count)
+        {
+            List<User> users = GenerateUsers(count);
+            BulkInsertUsers(users);
+        }
+
+
+        private List<User> GenerateUsers(int count)
+        {
+            var faker = new Faker<User>()
+                .RuleFor(u => u.FirstName, f => f.Name.FirstName())
+                .RuleFor(u => u.LastName, f => f.Name.LastName())
+                .RuleFor(u => u.Email, f => f.Internet.Email())
+                .RuleFor(u => u.PhoneNumber, f => f.Phone.PhoneNumber())
+                .RuleFor(u => u.Password, f => f.Internet.Password());
+
+            return faker.Generate(count);
+        }
+
+        private void BulkInsertUsers(List<User> users)
+        {
+            using (SqlBulkCopy bulkCopy = new SqlBulkCopy(_conn))
+            {
+                bulkCopy.DestinationTableName = "tbl_users";
+                bulkCopy.ColumnMappings.Add("FirstName", "FirstName");
+                bulkCopy.ColumnMappings.Add("LastName", "LastName");
+                bulkCopy.ColumnMappings.Add("Email", "Email");
+                bulkCopy.ColumnMappings.Add("PhoneNumber", "PhoneNumber");
+                bulkCopy.ColumnMappings.Add("Password", "Password");
+
+                DataTable table = new DataTable();
+                table.Columns.Add("FirstName", typeof(string));
+                table.Columns.Add("LastName", typeof(string));
+                table.Columns.Add("Email", typeof(string));
+                table.Columns.Add("PhoneNumber", typeof(string));
+                table.Columns.Add("Password", typeof(string));
+
+                foreach (var user in users)
+                {
+                    table.Rows.Add(user.FirstName, user.LastName, user.Email, user.PhoneNumber, user.Password);
+                }
+
+                bulkCopy.WriteToServer(table);
+            }
+        }
         public void Close()
         {
             _conn.Close();
