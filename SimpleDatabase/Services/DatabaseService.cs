@@ -167,12 +167,13 @@ namespace SimpleDatabase.Services
             }
         }
 
+        #region ---------Робота з користувачами------------
+        
         public void InsertRandomSpeed(int count)
         {
             List<User> users = GenerateUsers(count);
             BulkInsertUsers(users);
         }
-
 
         private List<User> GenerateUsers(int count)
         {
@@ -212,6 +213,73 @@ namespace SimpleDatabase.Services
                 bulkCopy.WriteToServer(table);
             }
         }
+
+        /// <summary>
+        /// Повертає кількість користувачів у БД
+        /// </summary>
+        /// <returns>Повертає число</returns>
+        public int GetCountUsers()
+        {
+            string sql = "SELECT COUNT(Id) as count_users FROM tbl_users";
+
+            try
+            {
+                var command = _conn.CreateCommand();
+                command.CommandText = sql;
+                using (var reader = command.ExecuteReader()) //Створюємо обєкт для читання даних
+                {
+                    if (reader.Read()) //читаємо кожен рядок
+                    {
+                        int count =int.Parse(reader["count_users"].ToString());
+                        return count;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Щось пішло не так {0}", ex.Message);
+            }
+            return -1;
+        }
+
+        /// <summary>
+        /// Читання усіх користувачів із БД
+        /// </summary>
+        /// <returns>Повертає список</returns>
+        public List<User> GetAllUsers()
+        {
+            string sql = "SELECT * FROM tbl_users " +
+                "ORDER BY Id " +
+                "OFFSET 0 ROWS " +
+                "FETCH NEXT 20 ROWS ONLY;";
+            List <User> users = new List<User>();
+            try
+            {
+                var command = _conn.CreateCommand();
+                command.CommandText = sql;
+                using (var reader = command.ExecuteReader()) //Створюємо обєкт для читання даних
+                {
+                    while (reader.Read()) //читаємо кожен рядок
+                    {
+                        var user = new User();
+                        user.Id = reader["Id"].ToString();
+                        user.FirstName = reader["FirstName"].ToString();
+                        user.LastName = reader["LastName"].ToString();
+                        user.Email = reader["Email"].ToString();
+                        user.PhoneNumber = reader["PhoneNumber"].ToString();
+                        user.Password = reader["Password"].ToString();
+                        users.Add(user);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Щось пішло не так {0}", ex.Message);
+            }
+            return users;
+        }
+
+        #endregion
         public void Close()
         {
             _conn.Close();

@@ -30,7 +30,8 @@ namespace SimpleDatabase
                 Console.WriteLine("4.Додати категорію");
                 Console.WriteLine("5.Додати n-категорій");
                 Console.WriteLine("6.Додати n-користувачів");
-                //Console.WriteLine("7.Додати n-користувачів");
+                Console.WriteLine("7.Показати кількість користувачів");
+                Console.WriteLine("8.Читання користувачів");
                 Console.Write("->_");
                 operation = int.Parse(Console.ReadLine());
                 switch(operation)
@@ -85,6 +86,46 @@ namespace SimpleDatabase
                                 ts.Hours, ts.Minutes, ts.Seconds,
                                 ts.Milliseconds / 10);
                             Console.WriteLine("RunTime " + elapsedTime);
+                            break;
+                        }
+
+                    case 7:
+                        {
+                            Stopwatch stopWatch = new Stopwatch();
+                            stopWatch.Start();
+                            int count = ds.GetCountUsers();
+                            Console.WriteLine($"Кількість користувачів у БД: {count}");
+                            stopWatch.Stop();
+                            // Get the elapsed time as a TimeSpan value.
+                            TimeSpan ts = stopWatch.Elapsed;
+
+                            // Format and display the TimeSpan value.
+                            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                                ts.Hours, ts.Minutes, ts.Seconds,
+                                ts.Milliseconds / 10);
+                            Console.WriteLine("RunTime " + elapsedTime);
+                            break;
+                        }
+
+                    case 8:
+                        {
+                            //Stopwatch stopWatch = new Stopwatch();
+                            //stopWatch.Start();
+                            var users = ds.GetAllUsers();
+                            foreach(var user in users)
+                            {
+                                Console.WriteLine(user);
+                            }
+                            
+                            //stopWatch.Stop();
+                            //// Get the elapsed time as a TimeSpan value.
+                            //TimeSpan ts = stopWatch.Elapsed;
+
+                            //// Format and display the TimeSpan value.
+                            //string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                            //    ts.Hours, ts.Minutes, ts.Seconds,
+                            //    ts.Milliseconds / 10);
+                            //Console.WriteLine("RunTime " + elapsedTime);
                             break;
                         }
                 }
