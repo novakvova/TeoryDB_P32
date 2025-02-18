@@ -250,7 +250,7 @@ namespace SimpleDatabase.Services
         {
             string sql = "SELECT * FROM tbl_users " +
                 "ORDER BY Id " +
-                "OFFSET 0 ROWS " +
+                "OFFSET 20 ROWS " +
                 "FETCH NEXT 20 ROWS ONLY;";
             List <User> users = new List<User>();
             try
