@@ -19,6 +19,9 @@
     <None Update="sql\tabels\tbl_order_statuses.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="sql\tabels\tbl_orders.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="sql\tabels\tbl_users.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
