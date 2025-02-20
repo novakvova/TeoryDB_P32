@@ -16,6 +16,9 @@
     <None Update="sql\dropAllTabels.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="sql\tabels\tbl_order_items.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="sql\tabels\tbl_order_statuses.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
