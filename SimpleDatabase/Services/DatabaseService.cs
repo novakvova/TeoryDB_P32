@@ -281,6 +281,25 @@ namespace SimpleDatabase.Services
         }
 
         #endregion
+
+        public void InsertAllTables()
+        {
+            var sqlLines = File.ReadAllLines(@"sql\insertAllTabels.sql");
+            foreach (var line in sqlLines)
+            {
+                try
+                {
+                    var command = _conn.CreateCommand();
+                    command.CommandText = line;
+                    int rows = command.ExecuteNonQuery(); //запит, який не вертає послідовність
+                    Console.WriteLine("-------");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Щось пішло не так {0}", ex.Message);
+                }
+            }
+        }
         public void Close()
         {
             _conn.Close();

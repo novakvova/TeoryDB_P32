@@ -32,6 +32,7 @@ namespace SimpleDatabase
                 Console.WriteLine("6.Додати n-користувачів");
                 Console.WriteLine("7.Показати кількість користувачів");
                 Console.WriteLine("8.Читання користувачів");
+                Console.WriteLine("9.Заповнити БД даними");
                 Console.Write("->_");
                 operation = int.Parse(Console.ReadLine());
                 switch(operation)
@@ -128,6 +129,11 @@ namespace SimpleDatabase
                             //Console.WriteLine("RunTime " + elapsedTime);
                             break;
                         }
+
+                    case 9:
+                        Console.WriteLine("---------Очистити таблиці з БД------");
+                        ds.InsertAllTables();
+                        break;
                 }
             } while (operation != 0);
         }

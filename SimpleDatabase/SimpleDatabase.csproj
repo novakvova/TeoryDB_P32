@@ -13,6 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="sql\insertAllTabels.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="sql\dropAllTabels.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
